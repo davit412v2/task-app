@@ -10,10 +10,12 @@ export function useProjectDetailPage() {
     const [tasks, setTasks] = useState<Task[]>([])
     const [title, setTitle] = useState<string>('')
     const [description, setDescription] = useState<string>('')
-    const [projectId,  setProjectId] = useState<number>(0)
+    const [projectId, setProjectId] = useState<number>(0)
     const [status, setStatus] = useState<string>('')
     const [priority, setPriority] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [error, setError] = useState<string | null>(null)
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     useEffect(() => {
         if (id) {
@@ -28,17 +30,18 @@ export function useProjectDetailPage() {
             const data = await getTasksByProject(projectId)
             setTasks(data)
         } catch (err) {
-            console.error('Error al cargar tareas')
+            setError('Error al cargar los proyectos del servidor')
         } finally {
             setIsLoading(false)
         }
     }
 
     const handleCreateTask = async (e: SyntheticEvent) => {
+        setIsSubmitting(true)
         e.preventDefault()
         if (!title.trim() || !id) return
 
-        const taskReq: TaskRequest = 
+        const taskReq: TaskRequest =
         {
             title: title,
             description: description,
@@ -53,6 +56,8 @@ export function useProjectDetailPage() {
             setTitle('')
         } catch (err) {
             alert('Error al crear tarea')
+        } finally {
+            setIsSubmitting(false)
         }
     }
 
@@ -80,5 +85,7 @@ export function useProjectDetailPage() {
         setDescription,
         tasks,
         projectId,
+        error,
+        isSubmitting
     }
 }

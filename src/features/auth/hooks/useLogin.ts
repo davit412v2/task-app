@@ -8,17 +8,20 @@ export function useLogin() {
     const [userName, setUserName] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const navigate = useNavigate()
     const { login } = useAuth();
-
-
+    
     const handleSubmit = (e: SyntheticEvent) => {
+        setIsSubmitting(true)
         e.preventDefault()
+     
         const req = {
             username: userName,
             password: password,
         }
         authAPi(req)
+        setIsSubmitting(false)
         navigate('/projects')
     }
 
@@ -42,6 +45,6 @@ export function useLogin() {
         setPassword,
         isLoading,
         handleSubmit,
-
+        isSubmitting,
     }
 }
