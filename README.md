@@ -38,6 +38,8 @@ src/
 ├── App.tsx                # Enrutador principal y proveedores
 └── main.tsx               # Punto de entrada de la aplicación
 
-## 👤 Autor
+## 👨‍💻 Autor
 
-* **Luis David Barriga Garay** - *Desarrollador Principal* - [GitHub](https://github.com/davit412v2/) | [LinkedIn](https://www.linkedin.com/in/luis-david-barriga-garay-48b67b175/)
+**Luis David Barriga Garay**
+
+Software Engineer | Full Stack Developer | Flutter | React | Node.js | Inteligencia Artificial
