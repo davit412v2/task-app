@@ -22,7 +22,15 @@ export interface Project {
 export interface Task {
   id: number;
   title: string;
-  completed: boolean;
+  description: string;
+  projectId: number;
+  status: string;
+  priority: string;
+}
+
+export interface TaskRequest {
+  title: string;
+  description: string;
   projectId: number;
   status: string;
   priority: string;

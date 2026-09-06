@@ -61,6 +61,10 @@ export function useProjectPage() {
         navigate('/login')
     }
 
+    const navigateToProject = (id: string) => {
+        navigate(`/projects/${id}`)
+    }
+
     return {
         isLoading,
         projects,
@@ -71,6 +75,7 @@ export function useProjectPage() {
         description,
         setDescription,
         handleDelete,
-        handleLogout
+        handleLogout,
+        navigateToProject
     }
 }
