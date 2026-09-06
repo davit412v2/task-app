@@ -24,7 +24,7 @@ export interface Task {
   title: string;
   description: string;
   projectId: number;
-  status: string;
+  status: TaskStatus;
   priority: string;
 }
 
@@ -35,3 +35,11 @@ export interface TaskRequest {
   status: string;
   priority: string;
 }
+
+export const TaskStatus = {
+  TODO: 'TODO',
+  DOING: 'Doing',
+  DONE: 'Done',
+} as const
+
+export type TaskStatus = typeof TaskStatus[keyof typeof TaskStatus]
