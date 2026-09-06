@@ -69,7 +69,7 @@ export default function ProjectsPage() {
               <h3 className="font-bold text-slate-800 text-lg">{project.name}</h3>
               <p className="text-slate-600 text-sm mt-1">{project.description}</p>
             </div>
-            <Button variant="destructive" onClick={() => handleDelete(project.id)}>
+            <Button variant="destructive" onClick={(e) => handleDelete(project.id, e)}>
               Borrar
             </Button>
           </div>

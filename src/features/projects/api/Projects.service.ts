@@ -17,5 +17,5 @@ export const createProject = async (data: { name: string; description: string })
 }
 
 export const deleteProject = async (id: number): Promise<void> => {
-  await api.delete(`/projects/${id}`)
+  await api.delete(`projects/${id}`)
 }

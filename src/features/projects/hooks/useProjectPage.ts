@@ -3,6 +3,7 @@ import { getProjects, createProject, deleteProject } from '@/features/projects/a
 import type { Project } from '@/types'
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from 'react-router-dom';
+import { getTasksByProject } from '@/features/projects/api/Task.service'
 
 
 export function useProjectPage() {
@@ -46,10 +47,16 @@ export function useProjectPage() {
         }
     }
 
-    const handleDelete = async (id: number) => {
+    const handleDelete = async (id: number, e: SyntheticEvent) => {
+        e.stopPropagation()
         try {
-            await deleteProject(id)
-            setProjects((prev) => prev.filter((p) => p.id !== id))
+            const isValidDeleteProject = await validDeletProject(id)
+            if (isValidDeleteProject) {
+                await deleteProject(id)
+                setProjects((prev) => prev.filter((p) => p.id !== id))
+            } else {
+                alert('No se puede eliminar el proyecto aun tiene tareas')
+            }
         } catch (err) {
             alert('Error al eliminar el proyecto')
         }
@@ -63,6 +70,11 @@ export function useProjectPage() {
 
     const navigateToProject = (id: string) => {
         navigate(`/projects/${id}`)
+    }
+
+    const validDeletProject = async (id: number) => {
+        const data = await getTasksByProject(id)
+        return !!data
     }
 
     return {
