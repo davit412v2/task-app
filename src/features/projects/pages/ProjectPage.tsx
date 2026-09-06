@@ -15,6 +15,7 @@ export default function ProjectsPage() {
     setDescription,
     handleDelete,
     handleLogout,
+    navigateToProject
   } = useProjectPage()
 
 
@@ -63,7 +64,7 @@ export default function ProjectsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {projects.map((project) => (
-          <div key={project.id} className="p-5 bg-white border border-slate-200 rounded-lg shadow-sm flex justify-between items-start">
+          <div key={project.id} onClick={() => navigateToProject(project.id.toString())} className="p-5 bg-white border border-slate-200 rounded-lg shadow-sm flex justify-between items-start">
             <div>
               <h3 className="font-bold text-slate-800 text-lg">{project.name}</h3>
               <p className="text-slate-600 text-sm mt-1">{project.description}</p>

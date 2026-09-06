@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from '@/context/AuthContext'
 import LoginPage from '@/features/auth/pages/LoginPage'
 import ProjectPage from '@/features/projects/pages/ProjectPage'
+import ProjectDetailPage from './features/projects/pages/ProjectDetailPage'
 
 function AppRoutes() {
   const { isAuthenticated } = useAuth()
@@ -11,6 +12,10 @@ function AppRoutes() {
       <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/projects" replace />} />
       <Route path="/projects" element={isAuthenticated ? <ProjectPage /> : <Navigate to="/login" replace />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route
+        path="/projects/:id"
+        element={isAuthenticated ? <ProjectDetailPage /> : <Navigate to="/login" replace />}
+      />
     </Routes>
   )
 }
