@@ -11,8 +11,11 @@ export const createTask = async (data: TaskRequest): Promise<Task> => {
     return response.data
 }
 
-export const updateTaskStatus = async (taskId: number, data: Task): Promise<Task> => {
-    const response = await api.put<Task>(`tasks/${taskId}`, data)
+export const updateTask = async (
+    taskId: string,
+    data: Partial<Pick<Task, 'priority' | 'status' | 'title'>>
+): Promise<Task> => {
+    const response = await api.patch<Task>(`/tasks/${taskId}`, data)
     return response.data
 }
 

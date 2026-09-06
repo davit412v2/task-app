@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useProjectDetailPage } from '../hooks/useProjectDetailPage'
-import { CheckCircle2, Circle, AlertCircle } from 'lucide-react'
+import { AlertCircle, Trash2 } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { StarRating } from '@/components/ui/starRating'
+import { TaskStatus } from '@/types'
 
 export default function ProjectDetailPage() {
 
@@ -12,10 +14,19 @@ export default function ProjectDetailPage() {
         handleCreateTask,
         title,
         setTitle,
+        description,
+        setDescription,
         tasks,
         projectId,
+        priority,
+        setPriority,
+        status,
+        setStatus,
         error,
-        isSubmitting
+        isSubmitting,
+        handlePriorityChange,
+        handleStatusChange,
+        handleDeleteTask
     } = useProjectDetailPage()
 
 
@@ -43,6 +54,27 @@ export default function ProjectDetailPage() {
                     disabled={isSubmitting}
                     onChange={(e) => setTitle(e.target.value)}
                 />
+                <Input
+                    placeholder="descripcion"
+                    value={description}
+                    disabled={isSubmitting}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+                <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value as TaskStatus)}
+                    className="h-10 px-3 border border-slate-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-slate-900"
+                >
+                    {Object.values(TaskStatus).map((st) => (
+                        <option key={st} value={st}>
+                            {st}
+                        </option>
+                    ))}
+                </select>
+                <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-500 font-medium">Prioridad:</span>
+                    <StarRating value={priority} onChange={setPriority} />
+                </div>
                 <Button type="submit" isLoading={isSubmitting} >Agregar</Button>
             </form>
 
@@ -64,44 +96,38 @@ export default function ProjectDetailPage() {
                     tasks.map((task) => (
                         <div
                             key={task.id}
-                            // onClick={}
-                            className="p-4 bg-white border border-slate-200 rounded-md flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors"
+                            className="p-4 bg-white border border-slate-200 rounded-lg flex flex-col md:flex-row items-center justify-between gap-4"
                         >
-                            <div className="flex items-center gap-3">
-                                {false ? (
-                                    <CheckCircle2 className="h-5 w-5 text-green-600" />
-                                ) : (
-                                    <Circle className="h-5 w-5 text-slate-300" />
-                                )}
-                                <span className={false ? 'line-through text-slate-400' : 'text-slate-800'}>
-                                    {task.title}
-                                </span>
-                            </div>
-                            <span
-                                className={`text-xs px-2.5 py-1 rounded-full font-medium ${false ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'
-                                    }`}
+                            <span className="font-medium text-slate-800 flex-1">{task.title}</span>
+
+                            <select
+                                value={task.status}
+                                onChange={(e) => handleStatusChange(task.id.toString(), e.target.value as TaskStatus)}
+                                className="h-8 px-2 border border-slate-200 rounded-md bg-slate-50 text-xs font-medium focus:outline-none"
                             >
-                                {false ? 'Completada' : 'Pendiente'}
-                            </span>
+                                {Object.values(TaskStatus).map((st) => (
+                                    <option key={st} value={st}>
+                                        {st}
+                                    </option>
+                                ))}
+                            </select>
+
+                            <StarRating
+                                value={Number(task.priority) || 1}
+                                onChange={(newRating) => handlePriorityChange(task.id.toString(), newRating)}
+                            />
+                            <Button
+                                variant="destructive"
+                                className="h-8 w-8 p-0"
+                                onClick={() => handleDeleteTask(task.id)}
+                                title="Eliminar tarea"
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
                         </div>
                     ))
                 )}
             </div>
-            {/* <div className="space-y-2">
-        {tasks.map((task) => (
-          <div
-            key={task.id}
-            className="p-4 bg-white border border-slate-200 rounded-md flex items-center justify-between cursor-pointer hover:bg-slate-50"
-          >
-            <span className={false ? 'line-through text-slate-400' : 'text-slate-800'}>
-              {task.title}
-            </span>
-            <span className={`text-xs px-2 py-1 rounded ${false? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-              {false ? 'Completada' : 'Pendiente'}
-            </span>
-          </div>
-        ))}
-      </div> */}
         </div>
     )
 }

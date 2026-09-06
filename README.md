@@ -1,32 +1,43 @@
-# React + TypeScript + Vite
+# 📋 Task Management App (React + TypeScript)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Aplicación web modular para la gestión de proyectos y tareas con prioridades por estrellas y estados personalizados.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Tech Stack & Herramientas
 
-## React Compiler
+* **Core:** React 19 + TypeScript
+* **Build Tool:** Vite
+* **Styling & UI:** Tailwind CSS v4 + Radix UI (manual implementation) + Lucide React (íconos)
+* **Routing:** React Router DOM (v6/v7)
+* **HTTP Client:** Axios (con Interceptores JWT)
+* **State Management:** Context API (Auth global) + Custom Hooks por feature
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+## 🏗️ Arquitectura de Carpeta (Modular Feature-Based)
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+El proyecto sigue una estructura modular para desacoplar completamente la lógica de negocio de la interfaz visual:
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+```text
+src/
+├── api/                   # Cliente Axios centralizado e interceptores
+├── components/
+│   └── ui/                # Componentes atómicos base (Button, Input, Skeleton, StarRating)
+├── context/               # Proveedores globales (AuthContext)
+├── features/
+│   ├── auth/              # Módulo de Autenticación
+│   │   ├── api/           # Servicios HTTP de Auth
+│   │   ├── hooks/         # Hook useLogin
+│   │   └── pages/         # Vista LoginPage
+│   └── projects/          # Módulo de Proyectos y Tareas
+│       ├── api/           # Servicios HTTP (projects.service, tasks.service)
+│       ├── hooks/         # Hooks useProjects, useProjectDetailPage
+│       └── pages/         # Vistas ProjectsPage, ProjectDetailPage
+├── types/                 # Definiciones de TypeScript e interfaces (Task, TaskStatus)
+├── App.tsx                # Enrutador principal y proveedores
+└── main.tsx               # Punto de entrada de la aplicación
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## 👤 Autor
+
+* **Luis David Barriga Garay** - *Desarrollador Principal* - [GitHub](https://github.com/davit412v2/) | [LinkedIn](https://www.linkedin.com/in/luis-david-barriga-garay-48b67b175/)
