@@ -1,41 +1,17 @@
-import { useState, type SyntheticEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from "@/context/AuthContext";
-import { authLogin } from "@/features/auth/api/Auth.service"
-
+import { useLogin } from "@/features/auth/hooks/useLogin"
 
 export default function LoginPage() {
-    const [userName, setUserName] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const navigate = useNavigate()
-    const { login } = useAuth();
 
-    const handleSubmit = (e: SyntheticEvent) => {
-        e.preventDefault()
-        console.log("Datos a enviar: ", { userName, password })
-        const req = {
-            username: userName,
-            password: password,
-        }
-        authAPi(req)
-        navigate('/projects')
-    }
-
-    const authAPi = async (req: { username: string, password: string }) => {
-        try {
-            setIsLoading(true)
-            const data = await authLogin(req)
-            login(data.token);
-            setIsLoading(false)
-        } catch (err) {
-            alert('No se pudo iniciar sesión')
-        } finally {
-            setIsLoading(false)
-        }
-    }
+    const {
+        userName,
+        setUserName,
+        password,
+        setPassword,
+        isLoading,
+        handleSubmit
+    } = useLogin()
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50" >
@@ -66,10 +42,10 @@ export default function LoginPage() {
                 </div>
                 <Button
                     type="submit"
-                    variant={isLoading ? "default" : "outline"}
+                    disabled={isLoading}
                     className="w-full"
                 >
-                    Ingresar
+                    {isLoading ? 'Ingresando...' : 'Ingresar'}
                 </Button>
             </form>
         </div>
