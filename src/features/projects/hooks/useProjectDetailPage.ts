@@ -55,6 +55,7 @@ export function useProjectDetailPage() {
             const newTask = await createTask(taskReq)
             setTasks((prev) => [...prev, newTask])
             setTitle('')
+            setDescription('')
             setPriority(1)
             setStatus(TaskStatus.TODO)
         } catch (err) {

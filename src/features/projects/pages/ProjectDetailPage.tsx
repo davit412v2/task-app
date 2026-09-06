@@ -118,11 +118,11 @@ export default function ProjectDetailPage() {
                             />
                             <Button
                                 variant="destructive"
-                                className="h-8 w-8 p-0"
+                                className="h-10 w-10 p-0 flex items-center justify-center shrink-0"
                                 onClick={() => handleDeleteTask(task.id)}
                                 title="Eliminar tarea"
                             >
-                                <Trash2 className="h-4 w-4" />
+                                <Trash2 className="h-10 w-10 stroke-[3]" />
                             </Button>
                         </div>
                     ))
