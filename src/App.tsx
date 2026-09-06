@@ -1,19 +1,26 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from '@/context/AuthContext'
+import LoginPage from '@/features/auth/pages/LoginPage'
+import ProjectPage from '@/features/projects/pages/ProjectPage'
 
-export default function App() {
-  const [counter, setCounter] = useState<number>(0)
+function AppRoutes() {
+  const { isAuthenticated } = useAuth()
 
   return (
-    <div className="p-8 max-w-md mx-auto space-y-4">
-      <h1 className="text-2xl font-bold">Gestor de Proyectos</h1>
-      <p>Contador actual: {counter}</p>
-      
-      <button 
-        onClick={() => setCounter(counter + 1)}
-        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-      >
-        Incrementar
-      </button>
-    </div>
+    <Routes>
+      <Route path="/login" element={!isAuthenticated ? <LoginPage /> : <Navigate to="/projects" replace />} />
+      <Route path="/projects" element={isAuthenticated ? <ProjectPage /> : <Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
+  )
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
