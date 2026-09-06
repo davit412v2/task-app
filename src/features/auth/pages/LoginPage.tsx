@@ -10,7 +10,8 @@ export default function LoginPage() {
         password,
         setPassword,
         isLoading,
-        handleSubmit
+        handleSubmit,
+        isSubmitting
     } = useLogin()
 
     return (
@@ -27,6 +28,7 @@ export default function LoginPage() {
                         onChange={(e) => setUserName(e.target.value)}
                         placeholder="usuario"
                         required
+                        disabled={isSubmitting}
                     />
                 </div>
 
@@ -38,11 +40,12 @@ export default function LoginPage() {
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
                         required
+                        disabled={isSubmitting}
                     />
                 </div>
                 <Button
                     type="submit"
-                    disabled={isLoading}
+                    isLoading={isLoading}
                     className="w-full"
                 >
                     {isLoading ? 'Ingresando...' : 'Ingresar'}
